@@ -109,6 +109,14 @@ assert(S.colourName("nope") === "pink", "colourName falls back to pink");
 assert(S.COLOURS.indexOf(S.padColour(0)) === 0, "padColour(0) is first colour");
 assert(S.padColour(7) === S.COLOURS[2], "padColour wraps by index");
 
+/* keyToPadIndex */
+assert(S.keyToPadIndex("1", 6) === 0, "key 1 maps to the first pad");
+assert(S.keyToPadIndex("6", 6) === 5, "key 6 maps to the sixth pad");
+assert(S.keyToPadIndex("0", 12) === 9, "key 0 maps to the tenth pad");
+assert(S.keyToPadIndex("7", 6) === -1, "keys past the pad count are ignored");
+assert(S.keyToPadIndex("a", 6) === -1, "letters are ignored");
+assert(S.keyToPadIndex("0", 6) === -1, "key 0 needs at least ten pads");
+
 /* nextId */
 assert(S.nextId([]) === "p1", "nextId on empty is p1");
 assert(S.nextId([{ id: "p1" }, { id: "p3" }]) === "p4", "nextId skips ahead");

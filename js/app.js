@@ -49,6 +49,14 @@
     return COLOURS[i];
   }
 
+  // Map a keyboard digit to a pad index: 1-9 -> 0-8, 0 -> 9. -1 = no match.
+  function keyToPadIndex(key, count) {
+    if (!/^[0-9]$/.test(String(key))) return -1;
+    var n = Number(key);
+    var i = n === 0 ? 9 : n - 1;
+    return i < (count | 0) ? i : -1;
+  }
+
   function escapeHtml(s) {
     return String(s)
       .replace(/&/g, "&amp;")
@@ -615,6 +623,16 @@
       }
       setText("save-note", url);
     });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      var tag = e.target && e.target.tagName;
+      if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+      var i = keyToPadIndex(e.key, state.pads.length);
+      if (i < 0) return;
+      e.preventDefault();
+      pressPad(state.pads[i].id, false);
+    });
   }
 
   function boot() {
@@ -640,6 +658,7 @@
     waveName: waveName,
     colourName: colourName,
     padColour: padColour,
+    keyToPadIndex: keyToPadIndex,
     escapeHtml: escapeHtml,
     findPad: findPad,
     padIndex: padIndex,
