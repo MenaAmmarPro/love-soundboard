@@ -576,7 +576,7 @@
       editBtn.textContent = editMode ? "Done editing" : "Edit pads";
       setText("pad-hint", editMode
         ? "Tap a pad to edit it."
-        : "Tap a pad to play it.");
+        : "Tap a pad to play it, or press 1\u20139 (and 0).");
       renderPads();
     });
 
