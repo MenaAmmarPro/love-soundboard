@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090b20">
+  <meta name="description" content="Our Soundboard — a grid of pads that play live-synthesised sounds you can record into little sequences. For Mena.">
+  <title>Our Soundboard ✦ Love for Mena</title>
+  <link rel="canonical" href="https://menaammarpro.github.io/love-soundboard/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Our Soundboard — for Mena">
+  <meta property="og:title" content="Our Soundboard ✦ Love for Mena">
+  <meta property="og:description" content="Silly little pads, our own sounds, recorded into sequences. No files — every sound is made live.">
+  <meta property="og:url" content="https://menaammarpro.github.io/love-soundboard/">
+  <meta property="og:image" content="https://menaammarpro.github.io/love-soundboard/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="js/theme-main.js" defer></script>
+  <script src="js/effects.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Our Soundboard">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <a class="brand" href="index.html">♥ Our Soundboard</a>
+    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">Menu</button>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a class="active" href="index.html">Home</a>
+      <a href="#board">Pads</a>
+      <a href="#sequence">Sequence</a>
+      <a href="#editor">Editor</a>
+      <div class="nav-more">
+        <button class="nav-more-toggle" type="button" aria-expanded="false" aria-haspopup="true">
+          More <span class="caret" aria-hidden="true">▾</span>
+        </button>
+        <div class="nav-more-menu" role="menu">
+          <a role="menuitem" href="https://menaammarpro.github.io/">All projects</a>
+          <a role="menuitem" href="https://menaammarpro.github.io/love-song/">Our Song</a>
+          <a role="menuitem" href="https://menaammarpro.github.io/love-arcade/">Love Arcade</a>
+          <a role="menuitem" href="https://menaammarpro.github.io/loveformymena/">Our little universe ↗</a>
+        </div>
+      </div>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme">Theme</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero board-hero">
+      <p class="eyebrow">OUR OWN LITTLE NOISES</p>
+      <div class="hero-emoji" aria-hidden="true">🎛️</div>
+      <h1>Our <span>soundboard.</span></h1>
+      <p class="hero-description">
+        A grid of silly pads. Every sound is made live in the browser — no files,
+        no downloads. Tap them, stack them, and record a little tune of your own.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#board">Start tapping <span>♥</span></a>
+        <a class="button button-ghost" href="#sequence">Record a sequence</a>
+      </div>
+      <p class="signature">Made with love, just for you <span>♥</span></p>
+    </section>
+
+    <section class="section" id="board">
+      <p class="eyebrow">TAP TO PLAY</p>
+      <h2>The <span>pads.</span></h2>
+      <p class="section-copy" id="pad-hint">Tap a pad to play it.</p>
+      <div class="board-toolbar">
+        <button class="button button-primary" id="btn-record" type="button">Record</button>
+        <button class="button button-ghost" id="btn-play" type="button">Play</button>
+        <button class="button button-ghost" id="btn-clear" type="button">Clear</button>
+        <button class="button button-ghost" id="btn-edit" type="button">Edit pads</button>
+        <button class="button button-ghost" id="btn-add" type="button">+ Add pad</button>
+        <label class="switch">
+          <input type="checkbox" id="toggle-loop">
+          <span>Loop</span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="toggle-colours" checked>
+          <span>Colours</span>
+        </label>
+        <span class="board-status" id="rec-status" aria-live="polite"></span>
+      </div>
+      <div class="pad-grid" id="pad-grid"></div>
+      <p class="board-meta"><strong id="pad-count">0</strong> pads</p>
+    </section>
+
+    <section class="section" id="sequence">
+      <p class="eyebrow">PRESS · RECORD · REPLAY</p>
+      <h2>Our <span>sequence.</span></h2>
+      <p class="section-copy">Press <strong>Record</strong>, tap some pads, then press <strong>Play</strong> to hear it back — turn on <strong>Loop</strong> to keep it going.</p>
+      <div class="seq-list" id="seq-list"></div>
+      <p class="board-meta"><strong id="seq-count">0</strong> notes recorded</p>
+    </section>
+
+    <section class="section" id="editor">
+      <p class="eyebrow">MAKE IT YOURS</p>
+      <h2>Pad <span>editor.</span></h2>
+      <p class="section-copy">Turn on <strong>Edit pads</strong> and tap a pad, or add a new one.</p>
+      <form class="editor-card" id="editor" hidden>
+        <p class="editor-title" id="editor-title">Edit pad</p>
+        <label class="field">
+          <span>Name</span>
+          <input type="text" id="pad-name-input" maxlength="40" placeholder="Name this sound" autocomplete="off">
+        </label>
+        <div class="editor-row">
+          <label class="field">
+            <span>Pitch — <em id="freq-value">440 Hz</em></span>
+            <input type="range" id="pad-freq" min="40" max="4000" step="10" value="440">
+          </label>
+          <label class="field">
+            <span>Length — <em id="dur-value">0.20 s</em></span>
+            <input type="range" id="pad-dur" min="0.05" max="2" step="0.05" value="0.2">
+          </label>
+        </div>
+        <div class="editor-row">
+          <label class="field">
+            <span>Waveform</span>
+            <select id="pad-wave">
+              <option value="sine">Sine (soft)</option>
+              <option value="square">Square (retro)</option>
+              <option value="sawtooth">Sawtooth (buzzy)</option>
+              <option value="triangle">Triangle (round)</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Colour</span>
+            <select id="pad-colour">
+              <option value="pink">Pink</option>
+              <option value="purple">Purple</option>
+              <option value="gold">Gold</option>
+              <option value="blue">Blue</option>
+              <option value="white">White</option>
+            </select>
+          </label>
+        </div>
+        <div class="editor-actions">
+          <button class="button button-primary" id="editor-save" type="button">Save</button>
+          <button class="button button-ghost" id="editor-test" type="button">Test sound</button>
+          <button class="button button-ghost" id="editor-cancel" type="button">Cancel</button>
+          <button class="button button-ghost danger" id="editor-delete" type="button">Delete</button>
+        </div>
+        <p class="editor-status" id="editor-status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="section" id="details">
+      <p class="eyebrow">JUST FOR US</p>
+      <h2>Details.</h2>
+      <div class="settings-actions">
+        <button class="button button-ghost" id="share-button" type="button">Share this page</button>
+      </div>
+      <p class="settings-note" id="save-note" aria-live="polite"></p>
+      <p class="section-note">Every sound is synthesised live and your board stays on this device — no files, no tracking, no network.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Made with love, just for you <span>♥</span></p>
+    <p class="footer-small">Ammar → Mena · Karachi → Bucharest</p>
+  </footer>
+</body>
+</html>
